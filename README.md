@@ -150,9 +150,9 @@ The full description of each field can be found in the official [GDELT Event Cod
 ### Event
 - `GlobalEventId`: Globally unique identifier assigned to each event record in the main GDELT dataset.
 - `Day`: Date event took place in `YYYYMMDD` format.
-- `MonthYear`: Alternative formatting of event date `YYYYMM` format.
-- `Year`:
-- `FractionDate`:
+- `MonthYear`: Alternative formatting of event date in `YYYYMM` format.
+- `Year`: Alternative formatting of event date in `YYYY` format.
+- `FractionDate`: Alternative formatting of the event date, computed as `YYYY.FFFF`, where `FFFF` is the percentage of the year completed by that day. The fractional component (`FFFF`) is computed as `(MONTH * 30 + DAY) / 365`.
 
 ### Actor Attributes
 For every event, two Actors may be identified as being involved. Respectively, these are Actor1 and Actor2. Each Actor will have attributes and characteristics that describe them, those of which will be in it's own subdocument. [CAMEO codes](https://parusanalytics.com/eventdata/cameo.dir/CAMEO.Manual.1.1b3.pdf) are used for many of these attributes and can be found in the CAMEO code collection.
