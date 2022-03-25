@@ -49,7 +49,7 @@ Now that we have the subset of data we want (`news.csv`), we can use [`mongoimpo
     Some notes: 
 
     - `--fieldFile` uses the `fields.txt` file that is available in this repo. This maps the raw GDELT records to the appropriate headers.
-    - Be sure to update the `USERNAME`, `PASSWORD`, `CLUSTER`, `DATABASE`, and `COLLECTION` to with your own information/names!
+    - Be sure to update the `USERNAME`, `PASSWORD`, `CLUSTER`, `DATABASE`, and `COLLECTION` parameters with your own information/names!
 
 
 ### Shaping data via Aggregation Pipelines
