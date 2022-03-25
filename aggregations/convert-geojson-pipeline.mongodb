@@ -1,0 +1,60 @@
+/* 
+Aggregation pipeline to convert raw lat, long values to geoJSON.
+Includes conversion to double type as raw data was imported as string.
+Deletes individual lat, long fields after adding GeoJSON point equivalents.
+*/
+
+// Select the database to use.
+use('recentEvents');
+
+// Build an aggregation pipeline to convert raw GDELT lat, long strings to double type and geoJSON points.
+const convertAggregation = [
+    { 
+        $match: {
+            ActionGeo_Lat: {"$type": "string"},
+            ActionGeo_Long: {"$type": "string"},
+            Actor1Geo_Lat: {"$type": "string"},
+            Actor1Geo_Long: {"$type": "string"},
+            Actor2Geo_Lat: {"$type": "string"},
+            Actor2Geo_Long: {"$type": "string" }
+        }
+    }, 
+    { 
+        $addFields: {
+            Actor1Geo: { 
+                "type": "Point", 
+                "coordinates": [
+                    { $convert: { input: "$Actor1Geo_Long", to: "double", onError: 0.00, onNull: 0.00 }},  
+                    { $convert: { input: "$Actor1Geo_Lat", to: "double", onError: 0.00, onNull: 0.00 }}
+                ]
+            },
+            Actor2Geo: { 
+                "type": "Point", 
+                "coordinates": [
+                    { $convert: { input: "$Actor2Geo_Long", to: "double", onError: 0.00, onNull: 0.00 }},
+                    { $convert: { input: "$Actor2Geo_Lat", to: "double", onError: 0.00, onNull: 0.00 }}
+                ]
+            },
+            ActionGeo: { 
+                "type": "Point", 
+                "coordinates": [
+                    { $convert: { input: "$ActionGeo_Long", to: "double", onError: 0.00, onNull: 0.00 }}, 
+                    { $convert: { input: "$ActionGeo_Lat", to: "double", onError: 0.00, onNull: 0.00 }}
+                ]
+            }
+        }
+    }, 
+    {
+        $unset: [
+            "ActionGeo_Lat", 
+            "ActionGeo_Long", 
+            "Actor1Geo_Lat",
+            "Actor1Geo_Long", 
+            "Actor2Geo_Lat", 
+            "Actor2Geo_Long"
+        ]
+    },
+    { $out: "last120Days" }
+];
+
+db.last120DaysRaw.aggregate(convertAggregation);
