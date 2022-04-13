@@ -14,7 +14,7 @@ These are the steps I performed to grab data from the main GDELT dataset, import
     I used [gdelttools](https://github.com/jdrumgoole/gdelttools) to do this. Once you've cloned the gdelttools repo, navigate to that directory and run the following command:
 
     ```python
-    python gdeltloader\gdeltloader.py --ziplist master
+    python gdelttools\gdeltloader.py --ziplist master
     ```
 
 2. Reduce main file to the amount of days you want (number passed to the `tail` command) and only export archives. I went with `120` days:
